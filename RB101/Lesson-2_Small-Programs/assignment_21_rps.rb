@@ -5,6 +5,7 @@ def prompt(message)
 end
 
 def win?(first, second)
+  #hash with values that the corresponding key defeats
   game_winner_hash = {
     rock: ["lizard", "scissors"],
     paper: ["rock", "spock"],
@@ -36,10 +37,13 @@ loop do
     prompt("Choose one: #{VALID_CHOICES.join(', ')}")
     choice = Kernel.gets().downcase().chomp()
     
+    #if 's', ask for clarity
     if choice == 's'
       prompt("Invalid: multiple options begin with 's': 'spock' and 'scissors'")
+    #if valid option, break out of if statement
     elsif (choice != 's') && (VALID_CHOICES.any? { |options| options.start_with?(choice) })
       break
+    #if invalid option, re enter choice
     elsif VALID_CHOICES.none? { |options| options.start_with?(choice) }
       prompt("That's not a valid choice.")
     end
