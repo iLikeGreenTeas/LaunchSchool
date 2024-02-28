@@ -4,6 +4,12 @@ def prompt(message)
   Kernel.puts("=> #{message}")
 end
 
+def return_valid_choice(choice)
+  VALID_CHOICES.each do |options|
+    return options if options.start_with?(choice)
+  end
+end
+
 def win?(first, second)
   #hash with values that the corresponding key defeats
   game_winner_hash = {
@@ -37,18 +43,16 @@ loop do
     prompt("Choose one: #{VALID_CHOICES.join(', ')}")
     choice = Kernel.gets().downcase().chomp()
     
-    #if 's', ask for clarity
     if choice == 's'
       prompt("Invalid: multiple options begin with 's': 'spock' and 'scissors'")
-    #if valid option, break out of if statement
-    elsif (choice != 's') && (VALID_CHOICES.any? { |options| options.start_with?(choice) })
+    elsif VALID_CHOICES.any? { |options| options.start_with?(choice) }
+      choice = return_valid_choice(choice)
       break
-    #if invalid option, re enter choice
-    elsif VALID_CHOICES.none? { |options| options.start_with?(choice) }
+    else
       prompt("That's not a valid choice.")
     end
   end
-
+  
   computer_choice = VALID_CHOICES.sample
 
   prompt("You chose: #{choice}; Computer chose: #{computer_choice}")
