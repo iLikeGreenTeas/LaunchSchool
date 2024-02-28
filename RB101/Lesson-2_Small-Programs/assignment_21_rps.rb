@@ -37,6 +37,19 @@ def display_results(player, computer)
   end
 end
 
+def return_winner_increment(player, computer)
+  if win?(player, computer)
+    return 1, 0
+  elsif win?(computer, player)
+    return 0, 1
+  else
+    return 0, 0
+  end
+end
+
+player_score = 0
+computer_score = 0
+
 loop do
   choice = ''
   loop do
@@ -56,12 +69,26 @@ loop do
   computer_choice = VALID_CHOICES.sample
 
   prompt("You chose: #{choice}; Computer chose: #{computer_choice}")
-
+  
+  player_increment, computer_increment = return_winner_increment(choice, computer_choice)
+  player_score += player_increment
+  computer_score += computer_increment
+  
   display_results(choice, computer_choice)
-
-  prompt("Do you want to play again?")
-  answer = Kernel.gets().chomp()
-  break unless answer.downcase().start_with?('y')
+  
+  prompt("Current Score - Player: #{player_score}; Computer: #{computer_score}")
+  
+  if player_score == 3
+    prompt("Player wins!")
+  elsif computer_score == 3
+    prompt("Computer wins!")
+  end
+  
+  if (player_score == 3) || (computer_score == 3)
+    prompt("Do you want to play again?")
+    answer = Kernel.gets().chomp()
+    break unless answer.downcase().start_with?('y')
+  end
 end
 
 prompt("Thank you for playing. Goodbye!")
