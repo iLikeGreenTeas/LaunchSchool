@@ -1,0 +1,11 @@
+input is 1 or 2 letters
+output is the corresponding string/word from VALID_CHOICES collection
+
+user_input = 'r'
+choice = ''
+def returns_valid_choice(user_input)
+  VALID_CHOICES.each do |options| 
+    return options if options.start_with?(user_input)
+  end
+end
+    
